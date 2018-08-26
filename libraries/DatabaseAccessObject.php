@@ -8,7 +8,7 @@ class DatabaseAccessObject {
     private $last_sql = "";
     private $last_id = 0;
     private $last_num_rows = 0;
-    private $error_message = "";
+    private $error_message = array();
 
     /**
      * 這段是『建構式』會在物件被 new 時自動執行，裡面主要是建立跟資料庫的連接，並設定語系是萬國語言以支援中文
@@ -49,9 +49,9 @@ class DatabaseAccessObject {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($data_array);
             return $stmt->fetchAll(); 
-		} catch(PDOException $e) {
-		    $this->error_message = '<p class="bg-danger">'.$e->getMessage().'</p>';
-		}
+        } catch(PDOException $e) {
+            $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+        }
     }
 
     /**
@@ -66,11 +66,11 @@ class DatabaseAccessObject {
         if(empty($fields))$fields = "*";
         $this->last_sql = "SELECT {$fields} FROM {$table} WHERE {$condition} ORDER BY {$order_by} {$limit}";
         try {
-			$stmt = $this->db->prepare($this->last_sql);
-			$stmt->execute($data_array);
-            return $stmt->fetchAll();
-		} catch(PDOException $e) {
-		    $this->error_message = '<p class="bg-danger">'.$e->getMessage().'</p>';
+          $stmt = $this->db->prepare($this->last_sql);
+          $stmt->execute($data_array);
+          return $stmt->fetchAll();
+        } catch(PDOException $e) {
+          $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
         }
     }
 
@@ -78,6 +78,7 @@ class DatabaseAccessObject {
      * 這段可以新增資料庫中的資料，並把最後一筆的 ID 存到變數中，可以用 getLastId() 取出
      */
     public function insert($table = null, $data_array = array()) {
+      try{
         if($table===null)return false;
         if(count($data_array) == 0) return false;
 
@@ -97,12 +98,16 @@ class DatabaseAccessObject {
         $stmt = $this->db->prepare($this->last_sql);
         $stmt->execute($prepare_array);
         $this->last_id = $this->db->lastInsertId();
+        } catch(PDOException $e) {
+          $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+        }
     }
 
     /**
      * 這段可以更新資料庫中的資料
      */
     public function update($table = null, $data_array = null, $key_column = null, $id = null) {
+      try{
         if($table == null)return false;
         if($id == null) return false;
         if($key_column == null) return false;
@@ -120,11 +125,15 @@ class DatabaseAccessObject {
         $this->last_sql = "UPDATE " . $table . " SET " . $setting_list . " WHERE " . $key_column . " = " . ":".$key_column;
         $stmt = $this->db->prepare($this->last_sql);                       
         $stmt->execute($data_array);
+        } catch(PDOException $e) {
+          $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+        }
     }
     /**
      * 這段可以刪除資料庫中的資料
      */
     public function delete($table = null, $key_column = null, $id = null) {
+      try{
         if ($table===null) return false;
         if($id===null) return false;
         if($key_column===null) return false;
@@ -132,6 +141,9 @@ class DatabaseAccessObject {
         $this->last_sql = "DELETE FROM $table WHERE " . $key_column . " = " . ':'.$key_column;
         $stmt = $this->db->prepare($this->last_sql);
         $stmt->execute(array( ':'.$key_column => $id));
+      } catch(PDOException $e) {
+        $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+      }
     }
 
     /**
@@ -190,11 +202,11 @@ class DatabaseAccessObject {
     }
 
     /**
-     * @param string $error_message
+     * @param string $error_message[]
      * 記下錯誤訊息到物件變數內
      */
-    private function setErrorMessage($error_message)
+    private function resetErrorMessage()
     {
-        $this->error_message = $error_message;
+        $this->error_message[] = array();
     }
 }
