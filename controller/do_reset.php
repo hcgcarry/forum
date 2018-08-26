@@ -88,7 +88,8 @@ if(isset($_POST['submit']))
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
   }
-}else{
+}
+else{
   header('Location: ' . Config::BASE_URL);
   exit;
 }

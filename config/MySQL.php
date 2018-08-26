@@ -3,5 +3,5 @@ class MySQL {
   const ADDRESS = "localhost";
   const USERNAME = "root";
   const PASSWORD = "toor";
-  const DATABASE = "game";
+  const DATABASE = "forum";
 }

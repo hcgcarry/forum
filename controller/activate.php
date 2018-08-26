@@ -18,12 +18,15 @@ $filter_rules_array = array(
 $gump->filter_rules($filter_rules_array);
 $validated_data = $gump->run($data_array);
 
+
 if($validated_data === false) {
   $error = $gump->get_readable_errors(false);
-  $msg->error("Your account could not be activated!");
+  $msg->error($error);
   header('Location: '.Config::BASE_URL.'login');
   exit;
-} else {
+} 
+
+else {
   foreach($validation_rules_array as $key => $val) {
     ${$key} = $data_array[$key];
   }
@@ -35,8 +38,11 @@ if($validated_data === false) {
     $msg->success("Your account is now active you may now log in.");
     header('Location: '.Config::BASE_URL.'login');
     exit;
-  }else{
+  }
+  //之後再做一個判斷active 狀態是否為yes然後返回帳號已經是active的通知 目前是直接返回you account not be activated
+  else{
     $msg->error("Your account could not be activated.");
+    echo $userVeridator->isReady2Active($memberID, $active);
     header('Location: '.Config::BASE_URL.'login');
     exit;
   }

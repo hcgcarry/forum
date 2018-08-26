@@ -5,7 +5,7 @@
 	  <div class="card mb-3">
         <div class="card-body">
           <p class="card-text">
-		  <form role="form" method="post" action="<?=Config::BASE_URL?>do_login" autocomplete="off">
+		  <form role="form" method="post" action="" autocomplete="off">
 				
 				<p><a href='<?=Config::BASE_URL?>register'>Register a New Account</a></p>
 				<hr>
@@ -29,7 +29,6 @@
 				<hr>
 				<div class="row">
 					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
-					<?php include("view/_component/fb-login.php");?>
 				</div>
 			</form>
 			</p>

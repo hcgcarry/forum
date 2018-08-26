@@ -8,12 +8,4 @@ $route = new Router(Request::uri()); //搭配 .htaccess 排除資料夾名稱後
 //這是一個很神奇的東西 ，flashsession 其直會再儲存後會再第一次取其直之後失笑
 $msg = new \Plasticbrain\FlashMessages\FlashMessages();
 
-$fb = new Facebook\Facebook([
-    'app_id' => Config::FB_APP_ID, // Replace {app-id} with your app id
-    'app_secret' => Config::FB_APP_SECRET,
-    'default_graph_version' => 'v2.2',
-    ]);
 
-if(!isset($_SESSION['cartQty']))$_SESSION['cartQty'] = array();
-if(!isset($_SESSION['cartPrice']))$_SESSION['cartPrice'] = array();
-if(!isset($_SESSION['cartName']))$_SESSION['cartName'] = array();

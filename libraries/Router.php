@@ -1,4 +1,6 @@
 <?php
+//配合Request物件使用的 假設url輸入localhost/forum/login Request 回傳login 再使用Router否配出login 還是login/test/...
+//並返回
 class Router {
     private $routes = [
         "^([a-zA-Z0-9-_]+)\/?$",

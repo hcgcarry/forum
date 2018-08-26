@@ -1,0 +1,21 @@
+
+body{
+  background-color:lightblue;
+  font-family: Arial;
+}
+.borderShadow {
+	border: 1px solid #ddd;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+}
+*{
+  box-sizing: border-box;
+}
+
+.navbar{
+height:45px;
+}
+ul.navbar-nav li a{padding:auto 30px;}
+
+ul.navbar-nav li a:hover:not(.active) {
+background-color: #111;}
+
