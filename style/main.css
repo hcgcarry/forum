@@ -12,10 +12,22 @@ body{
 }
 
 .navbar{
-height:45px;
+height:30px;
 }
-ul.navbar-nav li a{padding:auto 30px;}
+ul.navbar-nav li a{padding:auto 30px;
+   text-align: center;
+}
 
 ul.navbar-nav li a:hover:not(.active) {
-background-color: #111;}
+background-color: #111;
+}
 
+nav a img{
+  width:30px;
+}
+
+
+
+a.nav-link{
+  padding: 3px;
+}

@@ -1,5 +1,5 @@
 <?php
-if(isset($_POST['submit'])){
+if(isset($_POST['submit']) AND $_POST['submit']=="create_categories"){
   $gump = new GUMP();
   $_POST = $gump->sanitize($_POST); 
 
@@ -64,12 +64,26 @@ if(isset($_POST['submit'])){
   }
 }
 
+//////////////////////////如果是delete
+elseif(isset($_POST['submit']) AND $_POST['submit']=="delete_categories"){
+  $table='categories';
+  print_r($_POST);
+  $categories_name=join("','",$_POST);
+  echo '$categories_name'.$categories_name;
+  $sql = "DELETE  FROM categories WHERE categories_name IN ('$categories_name')";
+  Database::get()->getPDOConn()->query($sql);
+}
+
+/////////////////////query all exist category
+$sql="SELECT categories_name FROM categories";
+///這個似乎只能執行一次, 我猜拭去取得categoreisnamearray食材會執行query
+$categoriesNameArray=Database::get()->getPDOConn()->query($sql);
 /**
  * 載入頁面
  */
-//define page title
 $title = 'create categories';
+$filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/create_category.php');  // 載入註冊用的表單
+include('view/body/modify_category.php');  
 include('view/footer/default.php'); // 載入共用的頁尾
 

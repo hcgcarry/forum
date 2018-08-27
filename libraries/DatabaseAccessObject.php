@@ -44,7 +44,7 @@ class DatabaseAccessObject {
     /**
      * 這段用來執行 MYSQL 資料庫的語法，可以靈活使用
      */
-    public function execute($sql = null, $data_array) {
+    public function execute($sql = null, $data_array=array()) {
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($data_array);
@@ -71,6 +71,45 @@ class DatabaseAccessObject {
           return $stmt->fetchAll();
         } catch(PDOException $e) {
           $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+        }
+    }
+    //////////////上面query的改良板 
+    public function quickQuery( $table,$data_array ,$fields,$condition, $order_by , $limit ){
+
+        if(!isset($data_array) OR count($data_array) == 0)return false;
+        if(empty($table))return false;
+
+        if(is_numeric($limit))$limit = "LIMIT ".$limit;
+        if(empty($condition))$condition = 1;
+        if(empty($order_by))$order_by = 1;
+        if(empty($fields))$fields = "*";
+
+        $tmp_key[] = array();
+        $tmp_dat[] = array();
+        $condition='';
+        $count=0;
+        foreach ($data_array as $key => $value) {
+            $tmp_key[] = $key;
+            $tmp_dat[] = ":$key";
+            $prepare_array[":".$key] = $value;
+            
+            if ($count==0){
+              $condition.= $key."=:".$key;
+            }
+            else{
+              $condition.= " AND ".$key."=:".$key;
+            }
+            $count=1;
+        }
+
+        $this->last_sql = "SELECT {$fields} FROM {$table} WHERE {$condition} ORDER BY {$order_by} {$limit}";
+        try {
+          $stmt = $this->db->prepare($this->last_sql);
+          $stmt->execute($prepare_array);
+          return $stmt->fetchAll();
+        } catch(PDOException $e) {
+          $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
+
         }
     }
 
@@ -205,8 +244,11 @@ class DatabaseAccessObject {
      * @param string $error_message[]
      * 記下錯誤訊息到物件變數內
      */
-    private function resetErrorMessage()
+    public function resetErrorMessage()
     {
         $this->error_message[] = array();
+    }
+    public function getPDOConn(){
+      return $this->db;
     }
 }
