@@ -1,6 +1,3 @@
-  <div class="fixed" style='position:fixed;bottom:0;left:0;'>
-    <input type="submit"  name="submit" value="提交" class="btn btn-primary btn-block btn-lg" tabindex="5">
-  </div>
 <div class="container">
   <div class="row">
 	  <div class="col-sm-10 col-lg-10 mx-auto pt-3">
@@ -38,6 +35,9 @@ if (isset($categoriesArray) AND count($categoriesArray)>0){
 							<hr>
 
 					</p>
+          <div class="submit" style='position:fixed;bottom:0;left:0;'>
+            <input type="submit"  name="submit" value="提交" class="btn btn-primary btn-block btn-lg" tabindex="5">
+          </div>
 						</form>
         </div>
       </div>

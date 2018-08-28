@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SESSION['memberID']) ){
+  header('Location: '.Config::BASE_URL.'login');
+}
 if(isset($_POST['submit'])){
   $gump = new GUMP();
   $_POST = $gump->sanitize($_POST); 
