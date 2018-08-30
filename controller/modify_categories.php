@@ -67,9 +67,7 @@ if(isset($_POST['submit']) AND $_POST['submit']=="create_categories"){
 //////////////////////////如果是delete
 elseif(isset($_POST['submit']) AND $_POST['submit']=="delete_categories"){
   $table='categories';
-  print_r($_POST);
   $categories_name=join("','",$_POST);
-  echo '$categories_name'.$categories_name;
   $sql = "DELETE  FROM categories WHERE categories_name IN ('$categories_name')";
   Database::get()->getPDOConn()->query($sql);
 }
@@ -84,6 +82,6 @@ $categoriesNameArray=Database::get()->getPDOConn()->query($sql);
 $title = 'create categories';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/modify_category.php');  
+include('view/body/modify_category.html');  
 include('view/footer/default.php'); // 載入共用的頁尾
 

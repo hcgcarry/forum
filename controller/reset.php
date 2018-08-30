@@ -50,5 +50,5 @@ if($validated_data === false) {
 $title = 'Reset';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/reset.php');     // 載入重置密碼的頁面
+include('view/body/reset.html');     // 載入重置密碼的頁面
 include('view/footer/default.php'); // 載入共用的頁尾

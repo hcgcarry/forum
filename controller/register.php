@@ -113,5 +113,5 @@ if(isset($_POST['submit']))
 $title = 'Register';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/register.php');  // 載入註冊用的表單
+include('view/body/register.html');  // 載入註冊用的表單
 include('view/footer/default.php'); // 載入共用的頁尾

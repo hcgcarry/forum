@@ -1,0 +1,23 @@
+td{
+height:50px;
+display: flex;
+align-items: center; /* align vertical */
+}
+ul.nav-tabs li a{
+background-color:rgb(248,249,250);
+background-color:green;
+color:white;
+}
+.container.pt-3 > div.container.pt-2 > table > tbody > tr > td.col-8.font-weight-bold > a{
+text-decoration:none;
+
+}
+
+body > div.container > div > div > ul > li > a{
+border:black;
+}
+body > div.container.pt-3 > div.container.pt-3 > div > div > ul > li:nth-child(1) > a{
+border:black;
+}
+
+

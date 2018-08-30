@@ -7,11 +7,12 @@ if(isset($_POST['submit'])){
   $_POST = $gump->sanitize($_POST); 
 
   $validation_rules_array = array(
-    'categoriesID' => 'required',
+    'categoriesID' => 'required,max_len,10|min_len,1',
+
     'topic'    => 'required',
     'content' => 'required|max_len,300|min_len,1'
   );
-  $gump->validation_rules($validation_rules_array);
+$gump->validation_rules($validation_rules_array);
 
   $filter_rules_array = array(
     'categoriesID' => 'trim|sanitize_string',
@@ -53,6 +54,7 @@ if(isset($_POST['submit'])){
       $data_array['content']=$content;
       $date= date('Y-m-d h:i:s');
       $data_array['date']=$date;
+
       Database::get()->insert($table,$data_array);
     
     }
@@ -91,7 +93,7 @@ $categoriesArray=Database::get()->execute($sql);
 $title = 'create post';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/create_post.php');  
+include('view/body/create_post.html');  
 include('view/footer/default.php'); // 載入共用的頁尾
 
 
