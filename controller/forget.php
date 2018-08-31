@@ -15,13 +15,14 @@ if(isset($_POST['submit']) AND isset($_POST['username']) AND isset($_POST['email
         echo 'username: '.$username;
         echo 'email: '.$email;
         $resetToken = $userAction->getResetToken($memberID); // 創建 Token 並存到資料庫
-        $userAction->sendResetEmail($resetToken,$email); // 用 Token 組出重置信件並寄出
+		$userAction->sendResetEmail($resetToken,$email); // 用 Token 組出重置信件並寄出
         
         $userAction->redir2login(); // 重導向登入頁並顯示成功
       } 
       catch(PDOException $e) {
         $error[] = $e->getMessage();
         $log->error(__FILE__, json_encode($error));
+
         
       }
     }
@@ -39,8 +40,8 @@ if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')
   exit();
 }
 //define page title
-$title = 'Forget';
-$filename=basename($_SERVER['REQUEST_URI']);
+$filename=basename($_SERVER['REDIRECT_URL']);
+$title =$filename;
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/forget.html');    // 載入忘記密碼的頁面
+include('view/body/'.$filename.'.php');     // 載入登入用的頁面
 include('view/footer/default.php'); // 載入共用的頁尾

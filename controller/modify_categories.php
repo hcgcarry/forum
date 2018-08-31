@@ -82,6 +82,6 @@ $categoriesNameArray=Database::get()->getPDOConn()->query($sql);
 $title = 'create categories';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/modify_category.html');  
+include('view/body/modify_category.php');  
 include('view/footer/default.php'); // 載入共用的頁尾
 
