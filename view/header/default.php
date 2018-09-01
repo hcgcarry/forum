@@ -10,15 +10,8 @@
 <link rel="stylesheet" type="text/css" href="style/<?=$filename;?>.css">
 </head>
 <?php
-if(isset($_SESSION['memberID'])){
-  include("view/navbar/first/isLogin.php");
-  include("view/navbar/second/isLogin.php");
-}
-
-else{
-  include("view/navbar/first/unLogin.php");
-  include("view/navbar/second/unLogin.php");
-}
+  include("view/navbar/first/default.php");
+  include("view/navbar/second/default.php");
 
 ?>
 <body>

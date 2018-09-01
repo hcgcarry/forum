@@ -1,4 +1,14 @@
 <?php
+UserVeridator::goToLogin();
+if($_SESSION['level']==0){
+	$warning[]='你的權限不足';
+logArrayRecoder::warning($warning,$msg);
+echo $warning[0];
+exit;
+}
+else{
+
+
 if(isset($_POST['submit']) AND $_POST['submit']=="create_categories"){
   $gump = new GUMP();
   $_POST = $gump->sanitize($_POST); 
@@ -56,7 +66,7 @@ if(isset($_POST['submit']) AND $_POST['submit']=="create_categories"){
     }
   }
   $databaseError=Database::get()->getErrorMessage();
-  if(count($databaseError)>0){
+  if(count($databaseError[0])>0){
     foreach($databaseError as $e){
     $msg->error($e);
     
@@ -69,13 +79,14 @@ elseif(isset($_POST['submit']) AND $_POST['submit']=="delete_categories"){
   $table='categories';
   $categories_name=join("','",$_POST);
   $sql = "DELETE  FROM categories WHERE categories_name IN ('$categories_name')";
-  Database::get()->getPDOConn()->query($sql);
+  $key_column='categories_name';
+  Database::get()->delete($table,$key_column,$categories_name);
 }
 
 /////////////////////query all exist category
 $sql="SELECT categories_name FROM categories";
 ///這個似乎只能執行一次, 我猜拭去取得categoreisnamearray食材會執行query
-$categoriesNameArray=Database::get()->getPDOConn()->query($sql);
+$categoriesNameArray=Database::get()->execute($sql);
 /**
  * 載入頁面
  */
@@ -85,3 +96,4 @@ include('view/header/default.php'); // 載入共用的頁首
 include('view/body/modify_category.php');  
 include('view/footer/default.php'); // 載入共用的頁尾
 
+}

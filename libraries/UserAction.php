@@ -4,6 +4,10 @@ class UserAction {
         $data_array['resetComplete'] = 'No';
         $data_array['resetToken'] = md5(rand().time());
         Database::get()->update('members', $data_array, "memberID", $memberID);
+		$error[]=Database::get()->getErrorMessage();
+		if(isset($error) and count($error[0]) > 0){
+			return false;
+		}
         return $data_array['resetToken'];
     }
     function getMemberID($username,$email){

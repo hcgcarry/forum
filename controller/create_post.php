@@ -1,7 +1,10 @@
 <?php
+UserVeridator::goToLogin();
+/*
 if(!isset($_SESSION['memberID']) ){
   header('Location: '.Config::BASE_URL.'login');
 }
+ * */
 if(isset($_POST['submit'])){
   $gump = new GUMP();
   $_POST = $gump->sanitize($_POST); 
@@ -70,7 +73,7 @@ $gump->validation_rules($validation_rules_array);
     }
   }
   $databaseError=Database::get()->getErrorMessage();
-  if(count($databaseError)>0){
+  if(isset($databaseError) and count($databaseError)>0){
     foreach($databaseError as $e){
     $msg->error($e);
     
@@ -93,7 +96,7 @@ $categoriesArray=Database::get()->execute($sql);
 $title = 'create post';
 $filename=basename($_SERVER['REQUEST_URI']);
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/create_post.html');  
+include('view/body/create_post.php');  
 include('view/footer/default.php'); // 載入共用的頁尾
 
 

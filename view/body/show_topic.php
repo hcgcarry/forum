@@ -2,22 +2,26 @@
 																			<!-- initial-->
 <?php
 $numberOfRow=10;//一個分頁的row數
+sanitize::sanitizeArray($_GET);
+sanitize::sanitizeArray($_POST);
+
 if(!isset($_GET['page']) OR empty($_GET['page'])){
 	$page=1;
 }
 else{
-	$page=$_GET['page'];
+	$page=($_GET['page']);
 }
 if(!isset($_GET['categoriesID']) OR empty($_GET['categoriesID'])){
 	$_GET['categoriesID']=88888;
 }
-$categoriesID=$_GET['categoriesID'];
+$categoriesID=($_GET['categoriesID']);
 //get number of all data
 if($categoriesID!=88888){
 	//select pagenumber
-	$sql='select COUNT(postID) from posts where categoriesID='.$categoriesID;
+	$data_array['categoriesID']=$categoriesID;
+	$sql='select COUNT(postID) from posts where categoriesID=:categoriesID';
 
-	$numOfData=Database::get()->execute($sql);
+	$numOfData=Database::get()->execute($sql,$data_array);
 	if(isset($numOfData) AND !empty($numOfData)){
 	  $totalPageNum=ceil(($numOfData[0][0])/$numberOfRow);
 
@@ -31,9 +35,13 @@ if($categoriesID!=88888){
 	ON posts.memberID=members.memberID
 	LEFT JOIN categories
 	ON posts.categoriesID=categories.categoriesID
-	WHERE posts.categoriesID=".$categoriesID."
+	WHERE posts.categoriesID=:categoriesID
 	ORDER BY posts.date DESC
-	LIMIT ".$numberOfRow." OFFSET ".($page-1)*$numberOfRow;
+	LIMIT :numberOfRow OFFSET :offset";
+	$data_array=array();
+	$data_array[':categoriesID']=$categoriesID;
+	$data_array[':numberOfRow']=$numberOfRow;
+	$data_array[':offset']=($page-1)*$numberOfRow;
 }
 else{
 	$sql='select COUNT(postID) from posts';
@@ -52,7 +60,10 @@ else{
 	LEFT JOIN categories
 	ON posts.categoriesID=categories.categoriesID
 	ORDER BY posts.date DESC
-	LIMIT ".$numberOfRow." OFFSET ".($page-1)*$numberOfRow;
+	LIMIT :numberOfRow OFFSET :offset";
+	$data_array=array();
+	$data_array[':numberOfRow']=$numberOfRow;
+	$data_array[':offset']=($page-1)*$numberOfRow;
 }
 
 
@@ -74,7 +85,7 @@ else{
 <div class='container pt-3'>
   <div class='row'>
     <div class='col-1 offset-3' style='display:inlie-block;'>
-      <a style='float:eft;display:inlie-block;' class="btn btn-primary" href="?page=1&categoriesID=<?=$categoriesID?>">回首頁</a>
+      <a  class="btn btn-primary" href="?page=1&categoriesID=<?=$categoriesID?>">回首頁</a>
     </div>
     <div class='col-4 offset-0'>
       <ul class="pagination pagination-sm justify-content-center" >
@@ -151,14 +162,13 @@ for ($index = 0; $index < 7; $index = $index + 1) {
 
 <?php
 
-
-$postArray=Database::get()->execute($sql);
+$postArray=Database::get()->execute($sql,$data_array);
 
 if (isset($postArray) AND count($postArray) > 0){
 	foreach($postArray as $row){
 		printf("<tr class='d-flex '>
 		<td class='col-1 style='font-size:12px;'>%s</td>
-		<td class='topic col-8 font-weight-bold' style='font-size:18px;'><a href='%s'>%s</td>
+		<td class='topic col-8 font-weight-bold' style='font-size:18px;'><a href='%s'>%s</a></td>
 		<td class='col-2' style='font-size:14px;'>
 		<div class='row'>
 		<div class='col-12'>%s</div>

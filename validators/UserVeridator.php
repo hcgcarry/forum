@@ -16,8 +16,16 @@ class UserVeridator {
             return false; 
         }
     }
+	public static function goToLogin(){
+		if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
+		}
+		else{
+			header("Location:".Config::BASE_URL."login?location=" . urlencode($_SERVER['REQUEST_URI']));
+		}
+// Note: $_SERVER['REQUEST_URI'] is your current page
+	}
 
-    /**
+/**
      * 可取出錯誤訊息字串陣列
      */
     public function getErrorArray(){

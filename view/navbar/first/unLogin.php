@@ -3,6 +3,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <a class="navbar-brand" href="<?=Config::BASE_URL?>">
     <img src="<?=Config::BASE_URL?>pictures/手機桌布/l.jpg" alt='log'> 
+	  <span class='sitename'>wryyy替身使者論壇</span>
   </a>
 
   <ul class="navbar-nav mr-auto">

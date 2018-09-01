@@ -1,5 +1,5 @@
 <?php
-$postID = $_GET['postID'];
+$postID = htmlspecialchars($_GET['postID']);
 if ($msg->hasMessages()) {
 	$msg->display();
 }
@@ -9,7 +9,7 @@ if ($msg->hasMessages()) {
 <!--文章-->
 <?php
 $sql = "SELECT 
-        posts.content,posts.topic,posts.date,posts.postID,members.nickname,members.username,categories_name 
+        posts.goodPoint,posts.badPoint,posts.content,posts.topic,posts.date,posts.postID,members.nickname,members.username,categories_name 
       FROM 
         posts
       LEFT JOIN members
@@ -17,12 +17,13 @@ $sql = "SELECT
       LEFT JOIN categories
       ON posts.categoriesID=categories.categoriesID
       WHERE 
-        postID=" . $postID;
+        postID=:postID";
+$data_array['postID']=$postID;
 
-$post = Database::get()->execute($sql);
+$post = Database::get()->execute($sql,$data_array);
 if (!isset($post) OR empty($post)) {
 	$error = Database::get()->getErrorMessage();
-	if (isset($error) AND ! empty($error)) {
+	if (isset($error) AND ! count($error) > 0) {
 		foreach ($error as $row) {
 			$msg->error($row);
 		}
@@ -62,14 +63,21 @@ if (!isset($post) OR empty($post)) {
         <div class='d-flex align-items-center ' style='font-size:25px;font-weight:900' class='card-title'>
           <span class='badge badge-dark'> $categories_name</span>$topic 
         </div>
-          <span class='badge badge-info'>$date</span>
-          <div class='pt-3'>" . nl2br($content) . "</div>
+	    <span class='badge badge-info'>$date</span>
+        <div class='pt-3'>" . nl2br($content) . "</div>
+		
+		<span style='position:absolute;top:90%;'>
+		<img class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/like.png' alt='like'>
+		<span class='goodPoint'>$goodPoint</span>
+
+		<img class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
+		<span class='badPoint'>$badPoint</span>
+		</span>
 
           
-          </div>
-        </div>
-      </div>
-  </div>
+	   </div>
+	  </div>
+     </div>
 </div>
 
   ";
@@ -87,4 +95,3 @@ if (!isset($post) OR empty($post)) {
 
 
 
-</div>

@@ -1,4 +1,7 @@
 <?php
+if(isset($_POST['pointName']) and !empty($_POST['pointName'])){
+	$pointName=htmlspecialchars($_POST['pointName']);
+}
 $filename=basename($_SERVER['REDIRECT_URL']);
 $title =$filename;
 include('view/header/default.php'); // 載入共用的頁首

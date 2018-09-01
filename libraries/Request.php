@@ -4,7 +4,7 @@ class Request {
     public static function uri()
     {
         $uri = str_replace(static::getFolderName(), "", static::redirect_url());
-        /*
+		/*
         echo 'php_self:  '.$_SERVER['PHP_SELF'];
         echo '<br>';
         echo 'query string:  '.$_SERVER['QUERY_STRING'];
@@ -14,8 +14,8 @@ class Request {
         echo 'REQUEST_URI:  '.$_SERVER['REQUEST_URI'];
         echo '<br>';
         echo 'uri:  ',$uri;
-        echo '<br>';
-         */
+		 * 
+		 */
         return trim($uri, '/');
     }
 

@@ -13,8 +13,20 @@
       <a class="nav-link" href="<?=Config::BASE_URL;?>logout">logout</a>
     </li>
 
+    <?php
+if(isset($_SESSION['username'])){
+  echo '
     <li class="nav-item bg-info">
-    <a class="nav-link" href="#"><?=$_SESSION['username']?></a>
+    <a class="nav-link" href="#">'.$_SESSION["username"].'</a>
+    </li>
+';
+}
+?>
+    <li class="nav-item">
+      <a class="nav-link" href="<?=Config::BASE_URL;?>login">登入</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="<?=Config::BASE_URL;?>register">註冊</a>
     </li>
 
   </ul>

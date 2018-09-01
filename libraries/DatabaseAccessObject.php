@@ -248,7 +248,4 @@ class DatabaseAccessObject {
     {
         $this->error_message[] = array();
     }
-    public function getPDOConn(){
-      return $this->db;
-    }
 }
