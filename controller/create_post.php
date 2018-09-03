@@ -1,5 +1,5 @@
 <?php
-UserVeridator::goToLogin();
+UserVeridator::checkLogin();
 /*
 if(!isset($_SESSION['memberID']) ){
   header('Location: '.Config::BASE_URL.'login');
@@ -45,7 +45,7 @@ $gump->validation_rules($validation_rules_array);
 		$limit = '1';
 		$data_array['categoriesID'] = $categoriesID;
 		$result = Database::get()->query($table, $condition, $order_by, $fields, $limit, $data_array);
-    ///判斷是否重複
+    ///判斷是否有這類別
     if(!isset($result[0]['categoriesID']) OR empty($result[0]['categoriesID'])){
       $error[]='categories is not exist';
     }
@@ -57,6 +57,7 @@ $gump->validation_rules($validation_rules_array);
       $data_array['content']=$content;
       $date= date('Y-m-d h:i:s');
       $data_array['date']=$date;
+	  $data_array['hasGivePoint']='[]';
 
       Database::get()->insert($table,$data_array);
     

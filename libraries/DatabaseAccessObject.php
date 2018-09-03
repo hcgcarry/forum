@@ -99,7 +99,7 @@ class DatabaseAccessObject {
             else{
               $condition.= " AND ".$key."=:".$key;
             }
-            $count=1;
+            $count=$count+1;
         }
 
         $this->last_sql = "SELECT {$fields} FROM {$table} WHERE {$condition} ORDER BY {$order_by} {$limit}";

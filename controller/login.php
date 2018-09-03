@@ -1,4 +1,6 @@
 <?php
+sanitize::sanitizeArray($_GET);
+sanitize::sanitizeArray($_POST);
 if (isset($_SESSION['memberID'])){ 
 	header('Location:'.Config::BASE_URL.'home');
 	exit;

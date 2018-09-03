@@ -3,8 +3,16 @@ $postID = htmlspecialchars($_GET['postID']);
 if ($msg->hasMessages()) {
 	$msg->display();
 }
+
+?>
+<?php 
+	if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
+		echo "<input type='text' name='memberID' value='".$_SESSION['memberID']."' style='display:none;'>";
+	}
+
 ?>
 <!--名片-->
+
 
 <!--文章-->
 <?php
@@ -33,10 +41,12 @@ if (!isset($post) OR empty($post)) {
 	foreach ($post[0] as $key => $value) {
 		${$key} = $value;
 	}
+	echo "<input type='text' name='postID' value='$postID' style='display:none;'>";
 	///////////////////////個人資訊
 
 	echo "
-<div class='container mt-3 mb-3'> <div class='row'>
+<div class='container mt-3 mb-3'> 
+  <div class='row'>
 	<div class='col-2'>
       <div class='card' style='width:180px min-height:350px max-height:500px;'>
         <img class='card-img-top' src='" . Config::BASE_URL . "pictures/codegeass/P_20180422_135037_vHDR_Auto.jpg' alt='Card image' style='width:100%'>
@@ -67,10 +77,11 @@ if (!isset($post) OR empty($post)) {
         <div class='pt-3'>" . nl2br($content) . "</div>
 		
 		<span style='position:absolute;top:90%;'>
-		<img class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/like.png' alt='like'>
+
+				<img  class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/like.png' alt='like'>
 		<span class='goodPoint'>$goodPoint</span>
 
-		<img class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
+			<img  class='btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
 		<span class='badPoint'>$badPoint</span>
 		</span>
 
@@ -78,20 +89,13 @@ if (!isset($post) OR empty($post)) {
 	   </div>
 	  </div>
      </div>
-</div>
 
   ";
 }
 ?>
 
+<div class="fuckyour"></div>
 
 
 
-
-
-
-
-
-
-
-
+</div>

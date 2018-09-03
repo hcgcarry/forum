@@ -16,7 +16,7 @@ class UserVeridator {
             return false; 
         }
     }
-	public static function goToLogin(){
+	public static function checkLogin(){
 		if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
 		}
 		else{

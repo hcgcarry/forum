@@ -2,8 +2,6 @@
 																			<!-- initial-->
 <?php
 $numberOfRow=10;//一個分頁的row數
-sanitize::sanitizeArray($_GET);
-sanitize::sanitizeArray($_POST);
 
 if(!isset($_GET['page']) OR empty($_GET['page'])){
 	$page=1;

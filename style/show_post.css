@@ -4,7 +4,7 @@ body > div.container.mt-3 > div > div.col-2 > div > div > span > div > div {
 .card-body{
 	position:relative;
 }
-div.card-body > span > img{
+div.card-body > span >  img{
 	padding:5px;
 	width:30px;
 }
