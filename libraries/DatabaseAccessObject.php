@@ -73,8 +73,8 @@ class DatabaseAccessObject {
           $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
         }
     }
-    //////////////上面query的改良板 
-    public function quickQuery( $table,$data_array ,$fields,$condition, $order_by , $limit ){
+    //////////////上面query的改良板 $table,$data_array required 
+    public function select( $table,$data_array ,$fields, $order_by , $limit ){
 
         if(!isset($data_array) OR count($data_array) == 0)return false;
         if(empty($table))return false;

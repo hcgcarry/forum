@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('../vendor/autoload.php'); // 載入 composer
+require("/var/www/html/forum/vendor/autoload.php"); // 載入 composer
 
 sanitize::sanitizeArray($_GET);
 sanitize::sanitizeArray($_POST);
@@ -22,7 +22,7 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 		$pointName='badPoint';
 	}
 	//判斷有沒有給過point
-	$sql="select hasGivePoint from posts where postID=:postID and json_search(hasGivePoint,'one',:memberID) is not null;";
+	$sql="select hasGivePoint from posts where postID=:postID and json_search(hasGivePoint,'one',(convert(:memberID ,signed))) is not null;";
 	$data_array[':postID']=$postID;
 	$data_array[':memberID']=$memberID;
 	$selectResult=Database::get()->execute($sql,$data_array);
@@ -33,7 +33,8 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 				$sql="update 
 						posts 
 					set 
-						$pointName=$pointName-1,hasGivePoint=JSON_REMOVE(hasGivePoint,replace(json_search(hasGivePoint,'one',:memberID),'\"',''))
+						$pointName=$pointName-1,hasGivePoint=JSON_REMOVE(hasGivePoint,replace(json_search(hasGivePoint,'one',
+							convert(:memberID ,signed)),'\"',''))
 					WHERE postID=:postID;
 						";
 				$data_array[':memberID']=$memberID;
@@ -41,13 +42,19 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 	}
 	else{
 		echo '動作成功!!!';
-		$sql="update posts set $pointName=$pointName+1,hasGivePoint=JSON_ARRAY_APPEND(hasGivePoint,'$',cast(:memberID as unsigned)) where postID=:postID";
+		$sql="update posts set $pointName=$pointName+1,hasGivePoint=JSON_ARRAY_APPEND(hasGivePoint,'$',convert(:memberID ,signed)) where postID=:postID";
 
 		$data_array[':postID']=$postID;
 		$data_array[':memberID']=$memberID;
 		Database::get()->execute($sql,$data_array);
 
 	}
+	$data_array=array();
+	$sql="select hasGivePoint from posts where postID=:postID" ;
+	$data_array[':postID']=$postID;
+	$result=Database::get()->execute($sql,$data_array);
+	print_r($result);
+	
 
 
 

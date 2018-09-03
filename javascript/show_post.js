@@ -1,72 +1,82 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 $(document).ready(function () {
 	var memberID=$("input[name='memberID']").val();
+	var postID=$("input[name='postID']").val();
 
+	//如果已經登入的話
 	if(typeof memberID !== 'undefined'){
-		$("div.card-body > span > img").click( function () { 
-				$(this).next().text( function(index,origintext) {
-					return parseInt(origintext)+1;
-				});
-				$.post("/forum/ajax/show_post.php",{
-					'pointName':$(this).next().attr('class'),
-					'postID':$("input[name='postID']").val(),
-					'memberID':memberID
-
-				},
-				function(data, status){
-						$('div.fuckyour').text("Data: "+data+"\nStatus: " + status);
-				});
+		//處理gpbp
+		$("img.point").click( function () { 
+			$(this).next().text( function(index,origintext) {
+				return parseInt(origintext)+1;
 			});
-	}
-	else{
-		$("div.card-body > span > img").click( function () { 
-				alert('you need to login');
-		});
-	}
+			$.post("/forum/ajax/show_post/point.php",{
+				'pointName':$(this).next().attr('class'),
+				'postID':postID,
+				'memberID':memberID
 
-});
-/*
-$(document).ready(function () {
-	$("div.card-body > span > img").click(
-		function () { 
-			$(this).next().text(
-				function(index,origintext){ return parseInt(origintext)+1;
-			});
-			$.post("/forum/ajax/show_post.php",{
-				pointName:$(this).next().attr('class'),
-				postID:$("input[name='postID']").val(),
 			},
 			function(data, status){
 					$('div.fuckyour').text("Data: "+data+"\nStatus: " + status);
 			});
 		});
-});
-*/
+		//handle comment
+		$("input[name='comment']").keypress(function (e) {
+			console.log('keypress active');
+			var key = e.which;
+			//if enter is press
+			if(key==13){
+				$.post("/forum/ajax/show_post/comment.php",{
+					'content':$(this).val(),
+					'postID':postID,
+					'memberID':memberID
+				},
+				function(data, status){
+						$('div.comment').append("<div>"+data+"</div>");
+				});
 
-
-			   /*
-$(document).ready(function () {
-	$("div.card-body > span >img").submit(function (e) {
-		e.preventDefault();
-		$.ajax({
-			type: "POST",
-			url: "add_new_post.php",
-			data: $("#postcontent").serialize(),
-			beforeSend: function () {
-				$(".post_submitting").show().html("<center><img src='images/loading.gif'/></center>");
-			},
-			success: function (response) {
-				alert(response);
-				$("#return_update_msg").html(response);
-				$(".post_submitting").fadeOut(1000);
 			}
+			
 		});
-		e.preventDefault();
-	});
+	}
+	//if not login
+	else{
+		$("img.point input[name='comment']").click( function () { 
+				alert('you need to login');
+		});
+		$("input[name='comment']").keypress(function (e) {
+				alert('you need to login');
+		});
+	}
+	//不管有沒有登錄都可以用的
+		//toogle comment
+	$("span.expandComment").click(function (e) {
+		if($("div.default").css("display")=="none"){
+			$("div.default").css("display","block");
+			$("div.expandComment").css("display","none");
+			$("span.expandComment").text("收起留言");
+		}
+		//我也不知道為什麼空的內容有5個字的長度
+		else if($("div.default").css("display")=="block" && $("div.expandComment").text().length !==5){
+			$("div.default").css("display","none");
+			$("div.expandComment").css("display","block");
+			$("span.expandComment").text("展開留言");
 
-});
-*/
+		}
+		else{
+			$.post("/forum/ajax/show_post/expandComment.php",{
+				'postID':postID
+			},
+			function(data, status){
+				$('div.comment > div.expandComment').html(data);
+			});
+			$('div.comment > div.default').css("display","none");
+			$('div.comment > div.expandComment').css("display","block");
+		}
+
+	});
+			
+
+});    
+
