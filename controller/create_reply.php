@@ -1,25 +1,18 @@
 <?php
 UserVeridator::checkLogin();
-/*
-if(!isset($_SESSION['memberID']) ){
-  header('Location: '.Config::BASE_URL.'login');
+if(isset($_GET['postID']) and !empty($_GET['postID'])){
+	$postID= htmlspecialchars($_GET['postID']);
 }
- * */
 if(isset($_POST['submit'])){
   $gump = new GUMP();
   $_POST = $gump->sanitize($_POST); 
 
   $validation_rules_array = array(
-    'categoriesID' => 'required,max_len,10|min_len,1',
-
-    'topic'    => 'required',
     'content' => 'required|max_len,5000|min_len,1'
   );
 $gump->validation_rules($validation_rules_array);
 
   $filter_rules_array = array(
-    'categoriesID' => 'trim|sanitize_string',
-    'topic' => 'trim|sanitize_string',
     'content' => 'trim|sanitize_string'
   );
   $gump->filter_rules($filter_rules_array);
@@ -38,32 +31,17 @@ $gump->validation_rules($validation_rules_array);
     foreach($validation_rules_array as $key => $val) {
       ${$key} = $_POST[$key];
     }
-		$table = 'categories';
-		$condition = 'categoriesID = :categoriesID';
-		$order_by = '1';
-		$fields = 'categoriesID';
-		$limit = '1';
-		$data_array['categoriesID'] = $categoriesID;
-		$result = Database::get()->query($table, $condition, $order_by, $fields, $limit, $data_array);
-    ///判斷是否有這類別
-    if(!isset($result[0]['categoriesID']) OR empty($result[0]['categoriesID'])){
-      $error[]='categories is not exist';
-    }
-    ////repleat
-    else {
-      $table='posts';
+      $table='replys';
       $data_array['memberID']=$_SESSION['memberID'];
-      $data_array['topic']=$topic;
       $data_array['content']=$content;
       $date= date('Y-m-d h:i:s');
       $data_array['date']=$date;
+	  $data_array['postID']=$postID;
 	  $data_array['hasGiveGoodPoint']='[]';
 	  $data_array['hasGiveBadPoint']='[]';
 
       Database::get()->insert($table,$data_array);
     
-    }
-
   } 
 
     ///final error convert to flash session
@@ -82,23 +60,21 @@ $gump->validation_rules($validation_rules_array);
     }
   }
   if(!$msg->hasMessages()){
-    $msg->success('文章發表成功');
+    $msg->success('回覆發表成功');
   }
 }
-
-////////////////再create post的葉面提供類別的選單
-$sql="SELECT categories_name,categoriesID FROM categories";
-///這個似乎只能執行一次, 我猜拭去取得categoreisnamearray食材會執行query
-$categoriesArray=Database::get()->execute($sql);
 
 
 /**
  * 載入頁面
  */
-$title = 'create post';
 $filename=basename($_SERVER['REQUEST_URI']);
+$title=$filename;
 include('view/header/default.php'); // 載入共用的頁首
-include('view/body/create_post.php');  
+include('view/body/create_reply.php');  
 include('view/footer/default.php'); // 載入共用的頁尾
+
+
+
 
 

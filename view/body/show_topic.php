@@ -121,7 +121,6 @@ for ($index = 0; $index < 7; $index = $index + 1) {
       <li class=nav-item'><a class='nav-link text-light bg-primary' href='?categoriesID=88888&page=1'>全部</a></li>
                                                   <!--php-->
       <?php
-      ///這個似乎只能執行一次, 我猜拭去取得categoreisnamearray食材會執行query
       $selectCategoriesSql="SELECT categories_name,categoriesID FROM categories";
       $postArray=Database::get()->execute($selectCategoriesSql);
       if (isset($postArray) AND count($postArray) > 0){

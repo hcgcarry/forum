@@ -23,7 +23,7 @@ if(isset($_SESSION['username'])){
 }
 ?>
     <li class="nav-item">
-      <a class="nav-link" href="<?=Config::BASE_URL;?>login">登入</a>
+      <a class="nav-link" href="<?=Config::BASE_URL;?>login?location=<?=urlencode($_SERVER['REQUEST_URI'])?>">登入</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="<?=Config::BASE_URL;?>register">註冊</a>

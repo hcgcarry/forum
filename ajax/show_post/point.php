@@ -17,12 +17,14 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 	$memberID=($_POST['memberID']);
 	if($pointName=='goodPoint'){
 		$pointName='goodPoint';
+		$hasGivePoint='hasGiveGoodPoint';
 	}
 	elseif($pointName=='badPoint'){
 		$pointName='badPoint';
+		$hasGivePoint='hasGiveBadPoint';
 	}
 	//判斷有沒有給過point
-	$sql="select hasGivePoint from posts where postID=:postID and json_search(hasGivePoint,'one',(convert(:memberID ,signed))) is not null;";
+	$sql="select $hasGivePoint from posts where postID=:postID and json_search($hasGivePoint,'one',:memberID) is not null;";
 	$data_array[':postID']=$postID;
 	$data_array[':memberID']=$memberID;
 	$selectResult=Database::get()->execute($sql,$data_array);
@@ -33,8 +35,8 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 				$sql="update 
 						posts 
 					set 
-						$pointName=$pointName-1,hasGivePoint=JSON_REMOVE(hasGivePoint,replace(json_search(hasGivePoint,'one',
-							convert(:memberID ,signed)),'\"',''))
+						$pointName=$pointName-1,$hasGivePoint=JSON_REMOVE($hasGivePoint,replace(json_search($hasGivePoint,'one',
+							:memberID ),'\"',''))
 					WHERE postID=:postID;
 						";
 				$data_array[':memberID']=$memberID;
@@ -42,7 +44,7 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 	}
 	else{
 		echo '動作成功!!!';
-		$sql="update posts set $pointName=$pointName+1,hasGivePoint=JSON_ARRAY_APPEND(hasGivePoint,'$',convert(:memberID ,signed)) where postID=:postID";
+		$sql="update posts set $pointName=$pointName+1,$hasGivePoint=JSON_ARRAY_APPEND($hasGivePoint,'$',:memberID ) where postID=:postID";
 
 		$data_array[':postID']=$postID;
 		$data_array[':memberID']=$memberID;
@@ -50,7 +52,7 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 
 	}
 	$data_array=array();
-	$sql="select hasGivePoint from posts where postID=:postID" ;
+	$sql="select $hasGivePoint from posts where postID=:postID" ;
 	$data_array[':postID']=$postID;
 	$result=Database::get()->execute($sql,$data_array);
 	print_r($result);

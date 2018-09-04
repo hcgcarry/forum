@@ -27,7 +27,7 @@ $data_array[':postID']=$postID;
 
 $result=Database::get()->execute($sql,$data_array);
 ///if result not empty
-if(isset($result) and count($result[0]) > 0){
+if(isset($result) and count($result) > 0){
 	$resultLen=count($result);
 	foreach($result as $key => $item){
 		$row=$result[$resultLen-1-$key];

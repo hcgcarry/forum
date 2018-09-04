@@ -3,11 +3,17 @@
 $(document).ready(function () {
 	var memberID=$("input[name='memberID']").val();
 	var postID=$("input[name='postID']").val();
+	//如果comment數不超過5的話將button hidden
+	if(commentAmount > 4){
+		$("span.expandComment").css("display","block");
+
+	}
 
 	//如果已經登入的話
 	if(typeof memberID !== 'undefined'){
+		
 		//處理gpbp
-		$("img.point").click( function () { 
+		$("img.goodPoint,img.badPoint").click( function () { 
 			$(this).next().text( function(index,origintext) {
 				return parseInt(origintext)+1;
 			});
@@ -22,10 +28,12 @@ $(document).ready(function () {
 			});
 		});
 		//handle comment
+		//
 		$("input[name='comment']").keypress(function (e) {
 			console.log('keypress active');
 			var key = e.which;
 			//if enter is press
+			//新增留言
 			if(key==13){
 				$.post("/forum/ajax/show_post/comment.php",{
 					'content':$(this).val(),
@@ -35,14 +43,15 @@ $(document).ready(function () {
 				function(data, status){
 						$('div.comment').append("<div>"+data+"</div>");
 				});
+				$(this).val('');
 
 			}
 			
 		});
 	}
-	//if not login
+	//if not login 想新增留言或按gpbp就會背阻止
 	else{
-		$("img.point input[name='comment']").click( function () { 
+		$("img.goodPoint,img.badPoint, input[name='comment']").click( function () { 
 				alert('you need to login');
 		});
 		$("input[name='comment']").keypress(function (e) {

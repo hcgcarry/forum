@@ -18,6 +18,7 @@ class UserVeridator {
     }
 	public static function checkLogin(){
 		if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
+			return;
 		}
 		else{
 			header("Location:".Config::BASE_URL."login?location=" . urlencode($_SERVER['REQUEST_URI']));
