@@ -1,8 +1,6 @@
 
 
 $(document).ready(function () {
-	var memberID=$("input[name='memberID']").val();
-	var postID=$("input[name='postID']").val();
 	//如果comment數不超過5的話將button hidden
 	if(commentAmount > 4){
 		$("span.expandComment").css("display","block");
@@ -10,26 +8,53 @@ $(document).ready(function () {
 	}
 
 	//如果已經登入的話
+	var memberID=$("input[name='visiterMemberID']").val();
 	if(typeof memberID !== 'undefined'){
-		
 		//處理gpbp
 		$("img.goodPoint,img.badPoint").click( function () { 
-			$(this).next().text( function(index,origintext) {
-				return parseInt(origintext)+1;
-			});
-			$.post("/forum/ajax/show_post/point.php",{
-				'pointName':$(this).next().attr('class'),
-				'postID':postID,
-				'memberID':memberID
+			var pointName=$(this).next().attr('class');
+			var currentObject=$(this);
+			if(pointName=='goodPoint'){
+				var index=$("img.goodPoint").index($(this));
+			}
+			else if(pointName=='badPoint'){
+				var index=$("img.badPoint").index($(this));
+			}
+			var postOrReplyID=$("input[name='postOrReplyID']").eq(index).val();
+			console.log(postOrReplyID);
 
+			$.post("/forum/ajax/show_post/point.php",{
+				'pointName':pointName,
+				'postOrReplyID':postOrReplyID,
+				'memberID':memberID,
+				'index':index
 			},
+
 			function(data, status){
-					$('div.fuckyour').text("Data: "+data+"\nStatus: " + status);
+					$('div.toast').css('display','block');
+					toastFadeOut();
+					if(data=='do'){
+						$('div.toast').text('給分成功');
+						$('div.test').text(data);
+						currentObject.next().text( function(index,origintext) {
+							return parseInt(origintext)+1;
+						});
+
+					}
+					else{
+						$('div.toast').text('復原成功');
+						$('div.test').text(data);
+						currentObject.next().text( function(index,origintext) {
+							return parseInt(origintext)-1;
+						});
+
+					}
 			});
 		});
 		//handle comment
 		//
 		$("input[name='comment']").keypress(function (e) {
+			var index=$(this).index();
 			console.log('keypress active');
 			var key = e.which;
 			//if enter is press
@@ -37,11 +62,12 @@ $(document).ready(function () {
 			if(key==13){
 				$.post("/forum/ajax/show_post/comment.php",{
 					'content':$(this).val(),
-					'postID':postID,
-					'memberID':memberID
+					'postOrReplyID':postOrReplyID,
+					'memberID':memberID,
+					'index':index
 				},
 				function(data, status){
-						$('div.comment').append("<div>"+data+"</div>");
+						$('div.comment').eq(index).append("<div>"+data+"</div>");
 				});
 				$(this).val('');
 
@@ -61,31 +87,37 @@ $(document).ready(function () {
 	//不管有沒有登錄都可以用的
 		//toogle comment
 	$("span.expandComment").click(function (e) {
-		if($("div.default").css("display")=="none"){
-			$("div.default").css("display","block");
-			$("div.expandComment").css("display","none");
-			$("span.expandComment").text("收起留言");
+		var index=$(this).index();
+		if($("div.default").eq(index).css("display")=="none"){
+			$("div.default").eq(index).css("display","block");
+			$("div.expandComment").eq(index).css("display","none");
+			$("span.expandComment").eq(index).text("收起留言");
 		}
 		//我也不知道為什麼空的內容有5個字的長度
-		else if($("div.default").css("display")=="block" && $("div.expandComment").text().length !==5){
-			$("div.default").css("display","none");
-			$("div.expandComment").css("display","block");
-			$("span.expandComment").text("展開留言");
+		else if($("div.default").eq(index).css("display")=="block" && $("div.expandComment").eq(index).text().length !==5){
+			$("div.default").eq(index).css("display","none");
+			$("div.expandComment").eq(index).css("display","block");
+			$("span.expandComment").eq(index).text("展開留言");
 
 		}
 		else{
 			$.post("/forum/ajax/show_post/expandComment.php",{
-				'postID':postID
+				'postOrReplyID':postOrReplyID,
+				'index':index
 			},
 			function(data, status){
-				$('div.comment > div.expandComment').html(data);
+				$('div.comment > div.expandComment').eq(index).html(data);
 			});
-			$('div.comment > div.default').css("display","none");
-			$('div.comment > div.expandComment').css("display","block");
+			$('div.comment > div.default').eq(index).css("display","none");
+			$('div.comment > div.expandComment').eq(index).css("display","block");
 		}
 
 	});
-			
+
+	function toastFadeOut() {
+		$(".toast").fadeOut(1500);
+
+	}
 
 });    
 

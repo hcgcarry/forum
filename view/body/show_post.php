@@ -5,9 +5,9 @@ if ($msg->hasMessages()) {
 }
 
 if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
-	echo "<input type='text' name='memberID' value='".$_SESSION['memberID']."' style='display:none;'>";
+	echo "<input type='text' name='visiterMemberID' value='".$_SESSION['memberID']."' style='display:none;'>";
 }
-echo "<input type='text' name='postID' value='$postID' style='display:none;'>";
+echo "<input type='text' name='postOrReplyID' value='$postID' style='display:block;'>";
 
 ?>
 
@@ -155,22 +155,22 @@ if (!isset($post) OR empty($post)) {
 ?>
 							<!--go to reply-->
 <div class="create_reply" style='position:fixed;bottom:0;left:0;'>
-	<a href="<?=Config::BASE_URL?>create_reply?postID=<?=$postID?>" class="btn btn-primary">回覆</a>
+	<a href="<?=Config::BASE_URL?>create_reply?postID=<?=$postID?>&location=<?=urlencode($_SERVER['REQUEST_URI'])?>" class="btn btn-primary">回覆</a>
 </div>
 
 
 <script>var commentAmount=<?=$commentAmount?></script>
-<div class="fuckyour"></div>
 
+<div class="test"></div>
 
 
 <!-- post container end-->
 </div>
 												<!--reply container start-->
 <?php
-/*
 
 
+//select reply by postID
 $sql = "SELECT 
         replys.goodPoint,replys.badPoint,replys.content,replys.date,replys.replyID,members.nickname,members.username
       FROM 
@@ -178,7 +178,8 @@ $sql = "SELECT
       LEFT JOIN members
 		  ON replys.memberID=members.memberID
       WHERE 
-		  postID=:postID";
+		  postID=:postID
+		  ";
 $data_array['postID']=$postID;
 
 $reply = Database::get()->execute($sql,$data_array);
@@ -190,14 +191,14 @@ if (!isset($reply) OR empty($reply)) {
 		}
 	}
 } 
-//the post has reply and display it
+//the post have reply and display it
 else {
 	foreach($reply as $replyitem){
 		foreach ($replyitem as $key => $value) {
 			/////////////////////////////////////////////改到這裡
 			${$key} = $value;
 		}
-		echo "<input type='text' name='replyID' value='$replyID' style='display:none;'>";
+		echo "<input type='text' name='postOrReplyID' value='$replyID' style='display:block;'>";
 		///////////////////////個人資訊
 
 		echo "
@@ -226,9 +227,6 @@ else {
 	  <div class='col-10 '> 
 		<div class='card' > 
 		  <div class='card-body ' style='min-height:350px;max-height:10000px'>
-			<div class='d-flex align-items-center ' style='font-size:25px;font-weight:900' class='card-title'>
-			  <span class='badge badge-dark'> $categories_name</span>$topic 
-			</div>
 			<span class='badge badge-info'>$date</span>
 				<div class='pt-3 '>" . nl2br($content) . "</div>
 		   </div>
@@ -242,11 +240,11 @@ else {
 						<span style='display:none' class='btn btn-dark expandComment'>展開留言</span>
 					</div>
 					<div class='col-2 offset-2'>
-						<img  class='point btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/like.png' alt='like'>
+						<img  class='goodPoint btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/like.png' alt='like'>
 						<span class='goodPoint'>$goodPoint</span>
 					</div>
 					<div class='col-2'>
-						<img  class='point btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
+						<img  class='badPoint btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
 						<span class='badPoint'>$badPoint</span>
 					</div>
 				</div>
@@ -307,12 +305,13 @@ else {
 
 		</div>
 	 </ div>
+	 </div>
 
 	  ";
 	}
 }
-*/
 ?>
 
 
+												<div class='toast fixedCenter' ></div> 
 

@@ -61,6 +61,10 @@ $gump->validation_rules($validation_rules_array);
   }
   if(!$msg->hasMessages()){
     $msg->success('回覆發表成功');
+	  if(isset($_GET['location']) and !empty($_GET['location'])){
+		  header('Location:'.htmlspecialchars($_GET['location']));
+		exit;
+	  }
   }
 }
 

@@ -9,10 +9,20 @@ require("/var/www/html/forum/vendor/autoload.php"); // 載入 composer
 
 sanitize::sanitizeArray($_GET);
 sanitize::sanitizeArray($_POST);
-print_r($_POST);
 if(isset($_POST['pointName']) and !empty($_POST['pointName']) 
-and isset($_POST['postID']) and !empty($_POST['postID'])){
-	$postID=$_POST['postID'];
+and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
+
+	if($_POST['index'] > 0 ){
+		$postOrReplyIDName='replyID';
+		$postOrReplyName='replys';
+	}
+	else{
+		$postOrReplyIDName='postID';
+		$postOrReplyName='posts';
+	}
+
+	$postOrReplyIDValue=$_POST['postOrReplyID'];
+
 	$pointName=$_POST['pointName'];
 	$memberID=($_POST['memberID']);
 	if($pointName=='goodPoint'){
@@ -24,38 +34,37 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 		$hasGivePoint='hasGiveBadPoint';
 	}
 	//判斷有沒有給過point
-	$sql="select $hasGivePoint from posts where postID=:postID and json_search($hasGivePoint,'one',:memberID) is not null;";
-	$data_array[':postID']=$postID;
+	$sql="select $hasGivePoint from $postOrReplyName where $postOrReplyIDName=:$postOrReplyIDName and json_search($hasGivePoint,'one',:memberID) is not null;";
+	$data_array[":$postOrReplyIDName"]=$postOrReplyIDValue;
 	$data_array[':memberID']=$memberID;
 	$selectResult=Database::get()->execute($sql,$data_array);
-	print_r($selectResult);
 		//如果已經給過讚的話
 	if(isset($selectResult[0][0]) and count($selectResult[0][0]) >0 ){
-				echo '動作復原';
+				echo 'undo';
 				$sql="update 
-						posts 
+						$postOrReplyName 
 					set 
 						$pointName=$pointName-1,$hasGivePoint=JSON_REMOVE($hasGivePoint,replace(json_search($hasGivePoint,'one',
 							:memberID ),'\"',''))
-					WHERE postID=:postID;
+					WHERE $postOrReplyIDName=:$postOrReplyIDName;
 						";
 				$data_array[':memberID']=$memberID;
 				Database::get()->execute($sql,$data_array);
 	}
 	else{
-		echo '動作成功!!!';
-		$sql="update posts set $pointName=$pointName+1,$hasGivePoint=JSON_ARRAY_APPEND($hasGivePoint,'$',:memberID ) where postID=:postID";
+		echo 'do';
+		$sql="update $postOrReplyName set $pointName=$pointName+1,$hasGivePoint=JSON_ARRAY_APPEND($hasGivePoint,'$',:memberID ) where $postOrReplyIDName=:$postOrReplyIDName";
 
-		$data_array[':postID']=$postID;
+	$data_array[":$postOrReplyIDName"]=$postOrReplyIDValue;
 		$data_array[':memberID']=$memberID;
 		Database::get()->execute($sql,$data_array);
 
 	}
 	$data_array=array();
-	$sql="select $hasGivePoint from posts where postID=:postID" ;
-	$data_array[':postID']=$postID;
+	$sql="select $hasGivePoint from $postOrReplyName where $postOrReplyIDName=:$postOrReplyIDName" ;
+	$data_array[":$postOrReplyIDName"]=$postOrReplyIDValue;
 	$result=Database::get()->execute($sql,$data_array);
-	print_r($result);
+	//print_r($result);
 	
 
 
@@ -65,7 +74,7 @@ and isset($_POST['postID']) and !empty($_POST['postID'])){
 		$log=new Log();
 		foreach($error as $row){
 			foreach($row as $item){
-				$log->error($item,'../log/error.log');
+				$log->error($item,Config::FILE_BASE_URL.'log/error.log');
 			}
 		}
 		
