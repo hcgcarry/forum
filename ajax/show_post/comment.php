@@ -1,5 +1,6 @@
 <?php
 
+//create comment
 session_start();
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -16,12 +17,25 @@ if(isset($_POST['content']) and !empty($_POST['content'])) {
 	}
 }
 
+
+if($_POST['index'] > 0 ){
+	$postOrReplyIDName='replyID';
+	$postOrReplyName='replys';
+}
+else{
+	$postOrReplyIDName='postID';
+	$postOrReplyName='posts';
+}
+
+$postOrReplyIDValue=$_POST['postOrReplyID'];
+
+
 $table='comments';
 $data_array['memberID']=$memberID;
 $data_array['content']=$content;
 $date= date('Y-m-d h:i:s');
 $data_array['date']=$date;
-$data_array['postID']=$postID;
+$data_array["$postOrReplyIDName"]=$postOrReplyIDValue;
 Database::get()->insert($table,$data_array);
 
 //get error

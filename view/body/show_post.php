@@ -7,7 +7,7 @@ if ($msg->hasMessages()) {
 if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID'])){
 	echo "<input type='text' name='visiterMemberID' value='".$_SESSION['memberID']."' style='display:none;'>";
 }
-echo "<input type='text' name='postOrReplyID' value='$postID' style='display:block;'>";
+echo "<input type='text' name='postOrReplyID' value='$postID' style='display:none;'>";
 
 ?>
 
@@ -135,6 +135,7 @@ if (!isset($post) OR empty($post)) {
 						}
 		
 		echo "
+				<input type='text' name='commentAmount' value='$commentAmount' style='display:none' >
 				</div>
 				<div style='display:none' class='expandComment'>
 				</div>
@@ -198,7 +199,7 @@ else {
 			/////////////////////////////////////////////改到這裡
 			${$key} = $value;
 		}
-		echo "<input type='text' name='postOrReplyID' value='$replyID' style='display:block;'>";
+		echo "<input type='text' name='postOrReplyID' value='$replyID' style='display:none;'>";
 		///////////////////////個人資訊
 
 		echo "
@@ -257,11 +258,7 @@ else {
 					<div class='default'>
 				";
 		///////////////create default comment 
-							$table='comment';
-							$data_array['replyID']=$replyID;
-							$fields='content,date,memberID';
-							$order_by='date DESC';
-							$limit='5';
+							$data_array=array();
 							$numberOfRow=5;
 							$sql="SELECT
 								comments.content,comments.date,members.nickname
@@ -292,6 +289,7 @@ else {
 							}
 			
 			echo "
+					<input type='text' name='commentAmount' value='$commentAmount' style='display:none' >
 					</div>
 					<div style='display:none' class='expandComment'>
 					</div>
@@ -312,6 +310,7 @@ else {
 }
 ?>
 
+	<input type='text' name='replyAmount' value='<?=count($reply)?>' style='display:none;'>
 
 												<div class='toast fixedCenter' ></div> 
 

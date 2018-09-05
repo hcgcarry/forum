@@ -52,6 +52,7 @@ and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
 				Database::get()->execute($sql,$data_array);
 	}
 	else{
+		//還沒給過讚
 		echo 'do';
 		$sql="update $postOrReplyName set $pointName=$pointName+1,$hasGivePoint=JSON_ARRAY_APPEND($hasGivePoint,'$',:memberID ) where $postOrReplyIDName=:$postOrReplyIDName";
 
@@ -64,7 +65,6 @@ and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
 	$sql="select $hasGivePoint from $postOrReplyName where $postOrReplyIDName=:$postOrReplyIDName" ;
 	$data_array[":$postOrReplyIDName"]=$postOrReplyIDValue;
 	$result=Database::get()->execute($sql,$data_array);
-	//print_r($result);
 	
 
 

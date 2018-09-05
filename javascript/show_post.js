@@ -1,11 +1,6 @@
 
 
 $(document).ready(function () {
-	//如果comment數不超過5的話將button hidden
-	if(commentAmount > 4){
-		$("span.expandComment").css("display","block");
-
-	}
 
 	//如果已經登入的話
 	var memberID=$("input[name='visiterMemberID']").val();
@@ -23,6 +18,7 @@ $(document).ready(function () {
 			var postOrReplyID=$("input[name='postOrReplyID']").eq(index).val();
 			console.log(postOrReplyID);
 
+			//傳入index式用來判斷式postorreply的
 			$.post("/forum/ajax/show_post/point.php",{
 				'pointName':pointName,
 				'postOrReplyID':postOrReplyID,
@@ -35,7 +31,6 @@ $(document).ready(function () {
 					toastFadeOut();
 					if(data=='do'){
 						$('div.toast').text('給分成功');
-						$('div.test').text(data);
 						currentObject.next().text( function(index,origintext) {
 							return parseInt(origintext)+1;
 						});
@@ -43,7 +38,6 @@ $(document).ready(function () {
 					}
 					else{
 						$('div.toast').text('復原成功');
-						$('div.test').text(data);
 						currentObject.next().text( function(index,origintext) {
 							return parseInt(origintext)-1;
 						});
@@ -54,7 +48,8 @@ $(document).ready(function () {
 		//handle comment
 		//
 		$("input[name='comment']").keypress(function (e) {
-			var index=$(this).index();
+			var index=$("input[name='comment']").index($(this));
+			var postOrReplyID=$("input[name='postOrReplyID']").eq(index).val();
 			console.log('keypress active');
 			var key = e.which;
 			//if enter is press
@@ -68,6 +63,7 @@ $(document).ready(function () {
 				},
 				function(data, status){
 						$('div.comment').eq(index).append("<div>"+data+"</div>");
+						$('div.test').text(data);
 				});
 				$(this).val('');
 
@@ -87,20 +83,26 @@ $(document).ready(function () {
 	//不管有沒有登錄都可以用的
 		//toogle comment
 	$("span.expandComment").click(function (e) {
-		var index=$(this).index();
+		var index=$("span.expandComment").index($(this));
+		var postOrReplyID=$("input[name='postOrReplyID']").eq(index).val();
+		//重全部的comment返回成5個comment
 		if($("div.default").eq(index).css("display")=="none"){
 			$("div.default").eq(index).css("display","block");
 			$("div.expandComment").eq(index).css("display","none");
 			$("span.expandComment").eq(index).text("收起留言");
 		}
+		/*
 		//我也不知道為什麼空的內容有5個字的長度
+		//如果已經取得過了就無再取得而是給他display改變
 		else if($("div.default").eq(index).css("display")=="block" && $("div.expandComment").eq(index).text().length !==5){
 			$("div.default").eq(index).css("display","none");
 			$("div.expandComment").eq(index).css("display","block");
 			$("span.expandComment").eq(index).text("展開留言");
 
 		}
+		*/
 		else{
+			//去的全部的comment
 			$.post("/forum/ajax/show_post/expandComment.php",{
 				'postOrReplyID':postOrReplyID,
 				'index':index
@@ -116,6 +118,17 @@ $(document).ready(function () {
 
 	function toastFadeOut() {
 		$(".toast").fadeOut(1500);
+
+	}
+	//如果comment數不超過5的話將button hidden
+	var replyAmount=$("input[name='replyAmount']").val();
+	var index=0;
+	for(index=0;index<=replyAmount;index++){
+		var commentAmount=$("input[name='commentAmount']").eq(index).val();
+		if($("input[name='commentAmount']").eq(index).val() > 4){
+			$("span.expandComment").eq(index).css("display","block");
+
+		}
 
 	}
 
