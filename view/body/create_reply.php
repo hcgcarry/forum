@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row">
     <div class="col-sm-10 col-lg-10 mx-auto pt-3">
@@ -12,7 +11,13 @@
             <p class="card-text">
 
             <div class="form-group">
-              <textarea rows='15' name="content"  class="form-control input-lg" placeholder="在這裡輸入" tabindex="2"></textarea>
+
+				<textarea rows='15' name="content"  class="form-control input-lg" placeholder="在這裡輸入" tabindex="2" >
+				  <?php if(isset($content)){
+						  echo ($content);
+						  }
+				  ?>
+			  </textarea>
             </div>
             <hr>
 
@@ -24,6 +29,3 @@
         </div>
       </div>
     </div>
-
-
-

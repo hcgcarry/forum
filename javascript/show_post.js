@@ -63,7 +63,6 @@ $(document).ready(function () {
 				},
 				function(data, status){
 						$('div.comment').eq(index).append("<div>"+data+"</div>");
-						$('div.test').text(data);
 				});
 				$(this).val('');
 
@@ -130,3 +129,27 @@ $(document).ready(function () {
 
 });    
 
+/*
+$(document).ready(function () {
+	$('editContent').click(function(){
+			var currentObject=$(this);
+			var postOrReplyID=$("input[name='postOrReplyID']").eq(index).val();
+			var content=$("div.content").text();
+
+			//傳入index式用來判斷式postorreply的
+			$.post("/forum/ajax/show_post/point.php",{
+				'content':content,
+				'postOrReplyID':postOrReplyID,
+				'index':index
+			},
+
+			function(data, status){
+					$('div.toast').css('display','block');
+					$(".toast").fadeOut(1500);
+					$(".toast").)
+					}
+			});
+
+	})
+}
+*/

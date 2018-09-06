@@ -3,7 +3,6 @@ UserVeridator::checkLogin();
 if($_SESSION['level']==0){
 	$warning[]='你的權限不足';
 logArrayRecoder::warning($warning,$msg);
-echo $warning[0];
 exit;
 }
 else{

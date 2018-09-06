@@ -81,7 +81,7 @@ for ($index = 0; $index < 7; $index = $index + 1) {
 <?php
 							////////////////search post information
 $sql = "SELECT 
-        posts.goodPoint,posts.badPoint,posts.content,posts.topic,posts.date,posts.postID,members.nickname,members.username,members.selfDetail,members.profile,categories_name,members.memberID 
+        posts.hasEdit,posts.goodPoint,posts.badPoint,posts.content,posts.topic,posts.date,posts.postID,members.nickname,members.username,members.selfDetail,members.profile,categories_name,members.memberID 
       FROM 
         posts
       LEFT JOIN members
@@ -138,10 +138,17 @@ if (!isset($post) OR empty($post) or $page > 1) {
     <div class='card' > 
       <div class='card-body ' style='min-height:350px;max-height:10000px'>
         <div class='d-flex align-items-center ' style='font-size:25px;font-weight:900' class='card-title'>
-          <span class='badge badge-dark'> $categories_name</span>$topic 
+          <span class='badge badge-dark'> $categories_name</span><pre style='font-size:24px;'>$topic</pre> 
         </div>
-	    <span class='badge badge-info'>$date</span>
-			<div class='pt-3 content'>" . nl2br($content) . "</div>
+	    <span class='badge badge-info'>$date</span>";
+				if($hasEdit==1){
+					echo "
+					<span class='badge badge-light'>
+						已編輯
+					</span>";
+				}
+				echo "
+			<div class='pt-3 content'><pre>" . ($content) . "</pre></div>
 	   </div>
 
 
@@ -159,11 +166,16 @@ if (!isset($post) OR empty($post) or $page > 1) {
 				<div class='col-2'>
 					<img  class='badPoint btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
 					<span class='badPoint'>$badPoint</span>
-				</div>
-				<div class='col-2 offset-2' style='display:none'>
-					<button type='button' class='editContent btn btn-primary'>編輯文章</button>
-				</div>
+				</div>";
+				
+	//這邊只是單純看看這個item要不要顯示給按而已記得後端還是要做驗症
+	if(isset($_SESSION['memberID']) and $_SESSION['memberID']==$memberID){
+		echo "
+		<a href='".Config::BASE_URL."modify_post?postID=$postID&location=".urlencode($_SERVER['REQUEST_URI'])."' class='btn btn-primary'>編輯文章</a>
+				";
+	}
 
+		echo "
 				
 			</div>
 			";
@@ -200,7 +212,7 @@ if (!isset($post) OR empty($post) or $page > 1) {
 								$row=$result[$commentAmount-1-$key];
 								echo "<div class='row'>
 
-										<div class='col-12 pl-3'>".$row['nickname'].":".$row['content']."</div>
+										<div class='col-12 pl-3'><pre>".$row['nickname'].":".$row['content']."</pre></div>
 										<div class='col-12 pl-3' style='height:10px;font-size:10px;'>".$row['date']."</div>
 									</div>";
 
@@ -245,7 +257,7 @@ if (!isset($post) OR empty($post) or $page > 1) {
 
 //select reply by postID
 $sql = "SELECT 
-        replys.goodPoint,replys.badPoint,replys.content,replys.date,replys.replyID,members.nickname,members.username,members.selfDetail,members.profile,members.memberID 
+        replys.goodPoint,replys.badPoint,replys.content,replys.date,replys.hasEdit,replys.replyID,members.nickname,members.username,members.selfDetail,members.profile,members.memberID 
       FROM 
         replys
       LEFT JOIN members
@@ -305,8 +317,16 @@ else {
 	  <div class='col-10 '> 
 		<div class='card' > 
 		  <div class='card-body ' style='min-height:350px;max-height:10000px'>
-			<span class='badge badge-info'>$date</span>
-				<div class='pt-3 '>" . nl2br($content) . "</div>
+			<span class='badge badge-info'>$date</span>";
+				if($hasEdit==1){
+					echo "
+			<span class='badge badge-light'>
+					已編輯
+					</span>";
+				}
+			echo "
+				</span>
+				<div class='pt-3 '><pre>" . ($content) . "</pre></div>
 		   </div>
 
 
@@ -324,7 +344,13 @@ else {
 					<div class='col-2'>
 						<img  class='badPoint btn btn-secondary' src='".Config::BASE_URL."pictures/website/icon/dislike.png' alt='dislike'>
 						<span class='badPoint'>$badPoint</span>
-					</div>
+					</div>";
+					if(isset($_SESSION['memberID']) and $_SESSION['memberID']==$memberID){
+						echo "
+						<a href='".Config::BASE_URL."modify_post?replyID=$replyID&location=".urlencode($_SERVER['REQUEST_URI'])."' class='btn btn-primary'>編輯文章</a>
+								";
+					}
+	echo "
 				</div>
 				";
 
@@ -356,7 +382,7 @@ else {
 									$row=$result[$commentAmount-1-$key];
 									echo "<div class='row'>
 
-											<div class='col-12 pl-3'>".$row['nickname'].":".$row['content']."</div>
+											<div class='col-12 pl-3'><pre>".$row['nickname'].":".$row['content']."</pre></div>
 											<div class='col-12 pl-3' style='height:10px;font-size:10px;'>".$row['date']."</div>
 										</div>";
 

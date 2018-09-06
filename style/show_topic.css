@@ -19,5 +19,13 @@ border:black;
 body > div.container.pt-3 > div.container.pt-3 > div > div > ul > li:nth-child(1) > a{
 border:black;
 }
+td.title > pre > a {
+	font-size:18px;
+}
 
+body > div.container.pt-3 > div.container.pt-2 > table > tbody > tr > td.topic.col-8.font-weight-bold > a > pre {
 
+	font-size:22px;
+	color:blueviolet;
+	padding-top:5px;
+}
