@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
       <!-- Latest compiled and minified CSS -->
-      <link rel="stylesheet" type="text/css" href="<?=Config::BASE_URL;?>style/main.css">
+      <link rel="stylesheet" type="text/css" href="<?=Config::BASE_URL;?>style/default.css">
 <link rel="stylesheet" type="text/css" href="style/<?=$filename;?>.css">
 </head>
 <body>

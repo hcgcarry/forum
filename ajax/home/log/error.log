@@ -1,0 +1,2 @@
+[2018-09-05 20:17:58] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list'</p> [] []
+[2018-09-05 20:19:54] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list'</p> [] []

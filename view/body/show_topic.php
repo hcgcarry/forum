@@ -7,12 +7,13 @@ if(!isset($_GET['page']) OR empty($_GET['page'])){
 	$page=1;
 }
 else{
-	$page=($_GET['page']);
+	$page=htmlspecialchars($_GET['page']);
 }
 if(!isset($_GET['categoriesID']) OR empty($_GET['categoriesID'])){
+	//categoriesID 88888 is default all
 	$_GET['categoriesID']=88888;
 }
-$categoriesID=($_GET['categoriesID']);
+$categoriesID=htmlspecialchars($_GET['categoriesID']);
 //get number of all data
 if($categoriesID!=88888){
 	//select pagenumber
@@ -134,7 +135,7 @@ for ($index = 0; $index < 7; $index = $index + 1) {
         }
 
       }
-        $categoriesID=$_GET['categoriesID'];
+        $categoriesID=htmlspecialchars($_GET['categoriesID']);
       ?>
 												  <!--類別選擇按鍵php end-->
     </ul>

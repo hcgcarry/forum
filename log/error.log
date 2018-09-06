@@ -338,3 +338,7 @@
 [2018-09-04 23:35:38] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[HY093]: Invalid parameter number: parameter was not defined</p> [] []
 [2018-09-04 23:35:38] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[HY093]: Invalid parameter number: parameter was not defined</p> [] []
 [2018-09-04 23:35:38] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[HY093]: Invalid parameter number: parameter was not defined</p> [] []
+[2018-09-06 00:38:22] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfDetial' in 'field list'</p> [] []
+[2018-09-06 00:38:24] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: <p class="bg-danger">SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfDetial' in 'field list'</p> [] []
+[2018-09-06 18:53:53] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: Wrong username or password or your account has not been activated. [] []
+[2018-09-06 18:54:00] /var/www/html/forum/libraries/Log.php.ERROR: 127.0.0.1: Wrong username or password or your account has not been activated. [] []

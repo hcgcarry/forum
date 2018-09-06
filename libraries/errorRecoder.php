@@ -5,9 +5,15 @@ class logArrayRecoder{
         foreach( $error as $e) {
           $msg->error($e);
           Log::error($e);
+
           
         }
+		return true;
     }
+	else{
+		return false;
+
+	}
   }
   public static function warning($warning,$msg){
     if(isset($warning) AND count($warning) > 0){
@@ -16,7 +22,12 @@ class logArrayRecoder{
           Log::warning($e);
           
         }
+		return true;
     }
+	else{
+		return false;
+
+	}
   }
   public static function info($info,$msg){
     if(isset($info) AND count($info) > 0){
@@ -25,7 +36,25 @@ class logArrayRecoder{
           Log::info($e);
           
         }
+		return true;
     }
+	else{
+		return false;
+
+	}
+  }
+  public static function errorLog($error){
+    if(isset($error) AND count($error) > 0){
+        foreach( $error as $e) {
+          Log::error($e);
+          
+        }
+		return true;
+    }
+	else{
+		return false;
+
+	}
   }
 }
 ?>

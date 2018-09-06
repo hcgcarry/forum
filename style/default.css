@@ -1,0 +1,68 @@
+
+
+body{
+  background-color:rgb(34,22,33);
+  background-color:gray;
+  font-family: Arial;
+}
+
+
+*{
+  box-sizing: border-box;
+}
+
+a.nav-link{
+  padding: 3px;
+}
+
+
+.card{
+background-color:lightblue
+}
+
+/* ****************************navbar*/
+.navbar{
+height:30px;
+}
+ul.navbar-nav li.nav-item a.nav-link{
+  padding:auto 30px;
+   text-align: center;
+   color:rgba(255,255,255,1);
+   text-shadow: 2px 2px 4px #000000;
+}
+
+ul.navbar-nav li a:hover:not(.active) {
+background-color: #111;
+}
+nav a img{
+  width:30px;
+}
+span.sitename{
+   color: white;
+   text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+
+/* *****************************/
+
+.toast{
+	background-color:green;
+	opacity:1;
+ border: 1px solid green;
+    border-radius: 5px;
+	display:none;
+	padding:30px;
+}
+.fixedCenter {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	/* bring your own prefixes */
+	transform: translate(-50%, -50%);
+}
+
+
+.selfDetail span{
+   text-shadow: 2px 2px 4px #000000;
+}
+
+

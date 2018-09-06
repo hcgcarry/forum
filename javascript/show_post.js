@@ -2,7 +2,8 @@
 
 $(document).ready(function () {
 
-	//如果已經登入的話
+	//如果已經登入的話讓前端判斷要顯示什麼東西而已
+	//這個處理也可以繞過的所以因該要再後端也加處理
 	var memberID=$("input[name='visiterMemberID']").val();
 	if(typeof memberID !== 'undefined'){
 		//處理gpbp
@@ -22,13 +23,12 @@ $(document).ready(function () {
 			$.post("/forum/ajax/show_post/point.php",{
 				'pointName':pointName,
 				'postOrReplyID':postOrReplyID,
-				'memberID':memberID,
 				'index':index
 			},
 
 			function(data, status){
 					$('div.toast').css('display','block');
-					toastFadeOut();
+					$(".toast").fadeOut(1500);
 					if(data=='do'){
 						$('div.toast').text('給分成功');
 						currentObject.next().text( function(index,origintext) {
@@ -40,6 +40,7 @@ $(document).ready(function () {
 						$('div.toast').text('復原成功');
 						currentObject.next().text( function(index,origintext) {
 							return parseInt(origintext)-1;
+
 						});
 
 					}
@@ -58,7 +59,6 @@ $(document).ready(function () {
 				$.post("/forum/ajax/show_post/comment.php",{
 					'content':$(this).val(),
 					'postOrReplyID':postOrReplyID,
-					'memberID':memberID,
 					'index':index
 				},
 				function(data, status){
@@ -116,10 +116,6 @@ $(document).ready(function () {
 
 	});
 
-	function toastFadeOut() {
-		$(".toast").fadeOut(1500);
-
-	}
 	//如果comment數不超過5的話將button hidden
 	var replyAmount=$("input[name='replyAmount']").val();
 	var index=0;

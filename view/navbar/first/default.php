@@ -17,7 +17,7 @@
 if(isset($_SESSION['username'])){
   echo '
     <li class="nav-item bg-info">
-    <a class="nav-link" href="#">'.$_SESSION["username"].'</a>
+    <a class="nav-link" href="'.Config::BASE_URL.'home">'.$_SESSION["username"].'</a>
     </li>
 ';
 }

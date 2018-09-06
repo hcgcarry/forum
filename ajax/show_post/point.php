@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +10,7 @@ require("/var/www/html/forum/vendor/autoload.php"); // 載入 composer
 
 sanitize::sanitizeArray($_GET);
 sanitize::sanitizeArray($_POST);
-if(isset($_POST['pointName']) and !empty($_POST['pointName']) 
+if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID']) and  isset($_POST['pointName']) and !empty($_POST['pointName']) 
 and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
 
 	if($_POST['index'] > 0 ){
@@ -24,7 +25,7 @@ and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
 	$postOrReplyIDValue=$_POST['postOrReplyID'];
 
 	$pointName=$_POST['pointName'];
-	$memberID=($_POST['memberID']);
+	$memberID=$_SESSION['memberID'];
 	if($pointName=='goodPoint'){
 		$pointName='goodPoint';
 		$hasGivePoint='hasGiveGoodPoint';
@@ -81,5 +82,8 @@ and isset($_POST['postOrReplyID']) and !empty($_POST['postOrReplyID'])){
 	}
 
 
+}
+else{
+	echo 'error';
 }
 ?>
