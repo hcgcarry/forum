@@ -4,31 +4,46 @@
     <img src="<?=Config::BASE_URL?>pictures/手機桌布/l.jpg" alt='log'> 
   <span class='sitename'>wryyy替身使者論壇</span>
   </a>
+	<!-- to mr-auto-->
   <ul class="navbar-nav mr-auto">
 
   </ul>
 
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="<?=Config::BASE_URL;?>logout">logout</a>
-    </li>
 
     <?php
 if(isset($_SESSION['username'])){
+	//if login
   echo '
-    <li class="nav-item bg-info">
-    <a class="nav-link" href="'.Config::BASE_URL.'home">'.$_SESSION["username"].'</a>
+  <ul class="navbar-nav mr-3">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	  '.$_SESSION["username"].'
+	  
+      </a>
+      <div class="dropdown-menu ">
+		<a class="dropdown-item" href="'.Config::BASE_URL.'home">home</a>
+	    <a class="dropdown-item" href="'.Config::BASE_URL.'logout">logout</a>
+      </div>
     </li>
+  </ul>
 ';
 }
-?>
-    <li class="nav-item">
-      <a class="nav-link" href="<?=Config::BASE_URL;?>login?location=<?=urlencode($_SERVER['REQUEST_URI'])?>">登入</a>
+else{
+	//if not login
+	echo "
+  <ul class='navbar-nav'>
+    <li class='nav-item'>
+      <a class='nav-link' href='".Config::BASE_URL."login?location=".urlencode($_SERVER['REQUEST_URI'])."'>登入</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="<?=Config::BASE_URL;?>register">註冊</a>
+    <li class='nav-item'>
+      <a class='nav-link' href='".Config::BASE_URL."register'>註冊</a>
     </li>
 
   </ul>
-</nav>
+  ";
 
+}
+?>
+
+
+</nav>

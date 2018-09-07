@@ -8,6 +8,7 @@ session_start();
  */
 require("/var/www/html/forum/vendor/autoload.php"); // 載入 composer
 
+
 sanitize::sanitizeArray($_GET);
 sanitize::sanitizeArray($_POST);
 if(isset($_SESSION['memberID']) and !empty($_SESSION['memberID']) and  isset($_POST['pointName']) and !empty($_POST['pointName']) 

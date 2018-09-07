@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 					}
 					else{
-						$('div.toast').text('復原成功');
+						$('div.test').text('recover');
 						currentObject.next().text( function(index,origintext) {
 							return parseInt(origintext)-1;
 

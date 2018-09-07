@@ -18,15 +18,15 @@ $(document).ready(function (e) {
 			{
 			},
 			success: function (data) {
-				if (data == 'invalid') {
-					// invalid file format.
-					$(".toast").text("Invalid File").fadeIn();
-					console.log('invalid');
-				} else {
+				if (data == 'success') {
 					// view uploaded file.
 					$(".toast").html(data+" press F5 to reload").fadeIn();
 					$("#form")[0].reset();
 					console.log('success ');
+				} else {
+					// invalid file format.
+					$(".toast").text("Invalid File,please check file type and file size not bigger than 2MB").fadeIn();
+					console.log('invalid');
 				}
 			},
 			error: function (e)

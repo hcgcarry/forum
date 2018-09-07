@@ -47,7 +47,7 @@ span.sitename{
 .toast{
 	background-color:green;
 	opacity:1;
- border: 1px solid green;
+ border: 1px solid black;
     border-radius: 5px;
 	display:none;
 	padding:30px;
@@ -67,5 +67,8 @@ span.sitename{
 pre{
 	margin:0px 0px;
 	font-size:16px;
+}
+body > div.sticky-top > nav.navbar.navbar-expand-sm.bg-dark.navbar-dark > ul > li > div > a:hover{
+	background-color:gray;
 }
 

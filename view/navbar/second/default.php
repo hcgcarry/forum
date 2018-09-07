@@ -6,10 +6,15 @@
   </ul>
 
   <ul class="navbar-nav">
-
+<?php
+  if(isset($_SESSION['memberID']) and $_SESSION['level']==1){
+	  echo '
     <li class="nav-item">
-      <a class="nav-link" href="<?=Config::BASE_URL;?>modify_categories">修改類別</a>
+      <a class="nav-link" href="'.Config::BASE_URL.'modify_categories">修改類別</a>
     </li>
+	';
+  }
+?>
 
     <li class="nav-item">
     <a class="nav-link" href="<?=Config::BASE_URL;?>create_post">發表文章</a>

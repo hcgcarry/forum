@@ -37,6 +37,7 @@ if ($_FILES['image']) {
 
 //echo $insert?'ok':'err';
 			echo 'success';
+			exit;
 		}
 	} else {
 		echo 'invalid';
