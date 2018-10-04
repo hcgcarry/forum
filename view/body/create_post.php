@@ -20,6 +20,7 @@ if (isset($categoriesArray) AND count($categoriesArray)>0){
 }
 
   echo " </select> ";
+  echo "<input type='text' name='csrf' value='$key' style='display:none'>";
 ?>
             <p class="card-text">
 

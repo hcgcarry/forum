@@ -15,6 +15,9 @@ if(isset($_SESSION['username'])){
 	//if login
   echo '
   <ul class="navbar-nav mr-3">
+    <li class="nav-item">
+		<img src="'.Config::BASE_URL.'pictures/手機桌布/l.jpg" alt="log" style="width:30px"> 
+    </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 	  '.$_SESSION["username"].'

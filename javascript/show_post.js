@@ -29,7 +29,7 @@ $(document).ready(function () {
 			function(data, status){
 					$('div.toast').css('display','block');
 					$(".toast").fadeOut(1500);
-					if(data=='do'){
+					if(data=='doNotHasGivePoint'){
 						$('div.toast').text('給分成功');
 						currentObject.next().text( function(index,origintext) {
 							return parseInt(origintext)+1;
@@ -37,11 +37,7 @@ $(document).ready(function () {
 
 					}
 					else{
-						$('div.test').text('recover');
-						currentObject.next().text( function(index,origintext) {
-							return parseInt(origintext)-1;
-
-						});
+						$('div.toast').text('已經給過分數了');
 
 					}
 			});
