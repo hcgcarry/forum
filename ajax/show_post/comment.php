@@ -30,16 +30,18 @@ else{
 	if($_POST['index'] > 0 ){
 		$postOrReplyIDName='replyID';
 		$postOrReplyName='replys';
+		$table='reply_comments';
 	}
 	else{
 		$postOrReplyIDName='postID';
 		$postOrReplyName='posts';
+		$table='post_comments';
 	}
 	$memberID=$_SESSION['memberID'];
 	$postOrReplyIDValue=$_POST['postOrReplyID'];
 
 
-	$table='comments';
+
 	$data_array['memberID']=$memberID;
 	$data_array['content']=$content;
 	$date= date('Y-m-d h:i:s');

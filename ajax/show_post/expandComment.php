@@ -14,22 +14,24 @@ if(isset($_POST['index']) and isset($_POST['postOrReplyID'])){
 	if($_POST['index'] > 0 ){
 		$postOrReplyIDName='replyID';
 		$postOrReplyName='replys';
+		$table='reply_comments';
 	}
 	else{
 		$postOrReplyIDName='postID';
 		$postOrReplyName='posts';
+		$table='post_comments';
 	}
 
 	$postOrReplyIDValue=$_POST['postOrReplyID'];
 
 	$sql="SELECT
-		comments.content,comments.date,members.nickname
+		$table.content,$table.date,members.nickname
 	FROM
-		comments
+		$table
 	LEFT JOIN members
-		ON comments.memberID=members.memberID
-	WHERE comments.$postOrReplyIDName=:$postOrReplyIDName
-		ORDER BY comments.date DESC
+		ON $table.memberID=members.memberID
+	WHERE $table.$postOrReplyIDName=:$postOrReplyIDName
+		ORDER BY $table.date DESC
 	";
 	$data_array[":$postOrReplyIDName"]=$postOrReplyIDValue;
 

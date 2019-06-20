@@ -67,6 +67,7 @@ if(isset($_POST['submit']))
       );
       Database::get()->insert($table, $data_array);
       $id = Database::get()->getLastId();
+      /*
 
       if(isset($id) AND !empty($id) AND is_numeric($id)){
         // 寄出認證信
@@ -89,16 +90,21 @@ if(isset($_POST['submit']))
       else{
         $error[] = "Registration Error Occur on Database.";
       }
+       * 
+       */
     //else catch the exception and show the error.
     }
     catch(PDOException $e) {
         $error[] = $e->getMessage();
+
     }
   }
   if(isset($error) AND count($error) > 0){
     foreach( $error as $e) {
       //msg is flash session
         $msg->error($e);
+
+	echo $e;
     }
   }
   else{

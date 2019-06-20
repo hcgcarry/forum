@@ -1,0 +1,8 @@
+download composer:
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+url rewrite activate:
+
+
+更改/forum/config/Config.php裡面的帳密
+將vendor下載回來

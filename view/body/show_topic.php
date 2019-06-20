@@ -166,7 +166,7 @@ if (isset($postArray) AND count($postArray) > 0){
 	foreach($postArray as $row){
 		printf("<tr class='d-flex '>
 		<td class='col-1 style='font-size:12px;'>%s</td>
-		<td class='topic col-8 font-weight-bold' style='font-size:18px;'><a href='%s'><pre>%s</pre></a></td>
+		<td class='topic col-8 font-weight-bold' style='font-size:18px;'><a href='%s' style='overflow:hidden;'>%s</a></td>
 		<td class='col-2' style='font-size:14px;'>
 		<div class='row'>
 		<div class='col-12'>%s</div>

@@ -24,8 +24,10 @@ class DatabaseAccessObject {
             //$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);//Suggested to uncomment on production websites
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//Suggested to comment on production websites
             $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+	    $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
 
-            $this->db = $db;
+
+			$this->db = $db;
         
         } catch(PDOException $e) {
             //show error
@@ -177,9 +179,15 @@ class DatabaseAccessObject {
         if($id===null) return false;
         if($key_column===null) return false;
 
-        $this->last_sql = "DELETE FROM $table WHERE " . $key_column . " = " . ':'.$key_column;
+        $this->last_sql = "DELETE FROM $table WHERE " . $key_column . " = ?";
         $stmt = $this->db->prepare($this->last_sql);
-        $stmt->execute(array( ':'.$key_column => $id));
+	echo 'table',$table ,'<br>';
+	echo 'id',$id ,'<br>';
+	echo 'key_column',$key_column,'<br>';
+	foreach($id as $row){
+		$stmt->execute($row);
+	}
+	print_r($stmt->errorInfo());
       } catch(PDOException $e) {
         $this->error_message[] = '<p class="bg-danger">'.$e->getMessage().'</p>';
       }

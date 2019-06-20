@@ -48,7 +48,7 @@ class UserVeridator {
      * 驗證帳號密碼是否正確可登入
      */
     public function loginVerification($username, $password){
-        $result = Database::get()->execute('SELECT * FROM members WHERE active = "Yes" AND username = :username', array(':username' => $username));
+        $result = Database::get()->execute('SELECT * FROM members WHERE  username = :username', array(':username' => $username));
         if(isset($result[0]['memberID']) and !empty($result[0]['memberID'])) {
             $passwordObject = new Password();
             if($passwordObject->password_verify($password,$result[0]['password'])){

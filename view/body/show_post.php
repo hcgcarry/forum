@@ -138,7 +138,7 @@ if (!isset($post) OR empty($post) or $page > 1) {
     <div class='card' > 
       <div class='card-body ' style='min-height:350px;max-height:10000px'>
         <div class='d-flex align-items-center ' style='font-size:25px;font-weight:900' class='card-title'>
-          <span class='badge badge-dark'> $categories_name</span><pre style='font-size:24px;'>$topic</pre> 
+          <span class='badge badge-dark'> $categories_name</span><div>$topic </div>
         </div>
 	    <span class='badge badge-info'>$date</span>";
 				if($hasEdit==1){
@@ -148,7 +148,7 @@ if (!isset($post) OR empty($post) or $page > 1) {
 					</span>";
 				}
 				echo "
-			<div class='pt-3 content'><pre>" . ($content) . "</pre></div>
+			<div class='pt-3 content'><div style='word-wrap: break-word;'>" . ($content) . "</div></div>
 	   </div>
 
 
@@ -187,20 +187,20 @@ if (!isset($post) OR empty($post) or $page > 1) {
 				<div class='default'>
 			";
 	///////////////create default comment 
-						$table='comment';
+						$table='post_comments';
 						$data_array['postID']=$postID;
 						$fields='content,date,memberID';
 						$order_by='date DESC';
 						$limit='5';
 						$numberOfRow=5;
 						$sql="SELECT
-							comments.content,comments.date,members.nickname
+							post_comments.content,post_comments.date,members.nickname
 						FROM
-							comments
+							post_comments
 						LEFT JOIN members
-							ON comments.memberID=members.memberID
-						WHERE comments.postID=:postID
-							ORDER BY comments.date DESC
+							ON post_comments.memberID=members.memberID
+						WHERE post_comments.postID=:postID
+							ORDER BY post_comments.date DESC
 						LIMIT $numberOfRow ";
 						$data_array[':postID']=$postID;
 
@@ -364,13 +364,13 @@ else {
 							$data_array=array();
 							$numberOfRow=5;
 							$sql="SELECT
-								comments.content,comments.date,members.nickname
+								reply_comments.content,reply_comments.date,members.nickname
 							FROM
-								comments
+								reply_comments
 							LEFT JOIN members
-								ON comments.memberID=members.memberID
-							WHERE comments.replyID=:replyID
-								ORDER BY comments.date DESC
+								ON reply_comments.memberID=members.memberID
+							WHERE reply_comments.replyID=:replyID
+								ORDER BY reply_comments.date DESC
 							LIMIT $numberOfRow ";
 							$data_array[':replyID']=$replyID;
 
@@ -414,5 +414,4 @@ else {
 ?>
 
 	<input type='text' name='replyAmount' value='<?=count($reply)?>' style='display:none;'>
-
 

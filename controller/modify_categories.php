@@ -65,21 +65,18 @@ if(isset($_POST['submit']) AND $_POST['submit']=="create_categories"){
     }
   }
   $databaseError=Database::get()->getErrorMessage();
-  if(count($databaseError[0])>0){
-    foreach($databaseError as $e){
-    $msg->error($e);
-    
-    }
-  }
 }
 
 //////////////////////////如果是delete
 elseif(isset($_POST['submit']) AND $_POST['submit']=="delete_categories"){
   $table='categories';
-  $categories_name=join("','",$_POST);
-  $sql = "DELETE  FROM categories WHERE categories_name IN ('$categories_name')";
+  $categories_name = join("','", $_POST);
+$sql = "DELETE  FROM categories WHERE categories_name IN ('$categories_name')";
+
   $key_column='categories_name';
-  Database::get()->delete($table,$key_column,$categories_name);
+Database::get()->execute($sql);
+
+ # Database::get()->delete($table,$key_column,$categories_name);
 }
 
 /////////////////////query all exist category
